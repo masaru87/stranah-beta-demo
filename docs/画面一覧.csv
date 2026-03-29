@@ -1,0 +1,80 @@
+﻿画面名,ID,ID 1,URL,カテゴリ,ステータス,リリース,リリースタイミング,主なUI要素,備考,最終更新日時,最終更新日時 1,最終更新者,最終更新者 1,機能概要,用途,遷移元,遷移先
+ログイン,1,,/login,認証,"バックレビュー完了, フロントレビュー完了, 記載完了",,Β版,"Email, Password, Loginボタン, ForgotLink",未認証ユーザーのみアクセス可,2026年3月16日 2:06,,ko-kikuchi,,登録済みユーザーがログインする,page,/signup または外部リンク,/workspace/[wsId]
+新規登録,2,,/signup,認証,"バックレビュー完了, フロントレビュー完了, 記載完了",,検討,"Name, Email, Password, AgreeToTerms",Stripeプラン誘導あり,2026年3月11日 21:54,,ko-kikuchi,,"新規ユーザー登録と初期プラン選択
+登録数制限をしたい。",page,/login,/verify
+メール確認/アカウント登録認証,3,,/verify,認証,"バックレビュー完了, フロントレビュー完了, 記載完了",,検討,表示メッセージ（成功/失敗）,token必須,2026年3月11日 21:54,,ko-kikuchi,,"登録メールの認証リンクを検証
+失敗時の再送ボタン",page,/signup,/workspace/[wsId]
+ログアウト,4,,/logout,認証,"バックレビュー完了, フロントレビュー完了, 記載完了",,Β版,なし（処理のみ）,POST /api/auth/logout 実行,2026年3月16日 2:06,,ko-kikuchi,,セッションを破棄しログイン画面へ遷移,page,グローバルヘッダー,/login
+再設定リクエスト,5,,/forgot-password,パスワード再設定,"バックレビュー完了, フロントレビュー完了, 修正中",,Β版,"Email, Submitボタン",成功時メッセージ表示,2026年3月16日 2:06,,ko-kikuchi,,メール入力→再設定リンク送信,page,/login,/reset-password/sent
+" - メール送信完了（未ログイン）",6,,/forgot-password,パスワード再設定,"バックレビュー完了, フロントレビュー完了, 記載完了",,Β版,"成功メッセージ, 「戻る」リンク",自動遷移でも可,2026年3月16日 2:06,,ko-kikuchi,,再設定メール送信完了メッセージ,modal,/reset-password,/login
+新パスワード設定,7,,/reset-password/[token],パスワード再設定,"バックレビュー完了, フロントレビュー完了, 記載完了",,Β版,"Password, Confirm, Submit",token検証（24h有効）,2026年3月16日 2:06,,ko-kikuchi,,新しいパスワードの登録,page,メールリンク,/reset-password/success
+パスワード変更完了（ログイン済み）,8,," - /reset-password",パスワード再設定,"バックレビュー完了, フロントレビュー完了, 記載完了",,Β版,"成功メッセージ, ログインリンク",3秒後自動遷移など,2026年3月16日 2:06,,ko-kikuchi,,パスワード再設定完了を通知,modal,/reset-password/[token],/login
+アカウント設定,9,,/account,アカウント,"バックレビュー完了, フロントレビュー完了, 記載完了",,フェーズ１,名前、メール、会社名、保存ボタン、各設定リンク,編集と閲覧を統合した一体型UI,2026年3月11日 21:51,,ko-kikuchi,,名前・メール・会社名などの基本情報を表示・編集。通知設定・請求情報・連携への導線を含むメイン画面。,page,ヘッダー（ユーザーメニュー）,/account/security 等
+セキュリティ設定,10,,/account/security,アカウント,"バックレビュー完了, フロントレビュー完了, 記載完了",,フェーズ１,「パスワードを変更する」ボタン、完了メッセージ,変更はメール経由で実施。将来的に2FAや履歴追加可,2026年3月11日 21:51,,ko-kikuchi,,パスワード変更をリクエストする。ボタン押下で登録メール宛に再設定リンクを送信。,page,/account,/reset-password/[token]
+通知設定,11,,/account/notification,アカウント,"バックレビュー完了, フロントレビュー完了, 記載完了",,フェーズ１,通知ON/OFFトグル、Slack Webhook連携ボタン、保存ボタン,Seed期はメールとSlack通知のみ対応,2026年3月11日 21:51,,ko-kikuchi,,メール通知・Slack通知のON/OFFを設定する。,page,/account,/account
+請求情報,12,,/account/billing,アカウント,"バックレビュー完了, フロントレビュー完了, 記載完了",,フェーズ１,現在プラン、更新日、支払い履歴、プラン変更ボタン,/plan画面と同一コンポーネントで実装可,2026年3月11日 21:51,,ko-kikuchi,,Stripe課金情報・支払い履歴を表示。プラン変更画面への導線を含む。,page,/account,/plan
+決済情報セットアップ,13,,/billing/setup,アカウント,"バックレビュー完了, 記載完了",,検討,カード入力フォーム（Stripe Elements）、会社名、プラン選択、登録ボタン,Stripe Checkout / PaymentElement利用。カード登録成功時のみ完了。,2026年3月16日 2:40,,ko-kikuchi,,"初回アカウント登録時にクレジットカード情報を登録する。
+成功すると登録完了および初期ワークスペースが作成される。
+決済情報変更時もこちらの画面を利用する",page,/verify,"/workspace/[wsId]
+または
+/account/billing"
+外部連携設定,14,,/account/integration,アカウント,"バックレビュー完了, 記載完了",,検討,Slack連携ボタン、GitHub連携ボタン、削除ボタン,Freee削除済。Webhook連携中心に設計,2026年3月11日 21:52,,ko-kikuchi,,Slack・GitHubなどの連携状態を管理する。,page,/account,/account
+アカウント削除,15,,/account/delete,アカウント,,,検討,警告メッセージ、パスワード入力、削除ボタン,Stripe契約中は削除不可。CS確認要,2026年3月11日 21:52,,ko-kikuchi,,アカウント削除を申請し、確認モーダルで最終確認を行う。,page,/account/security,/goodbye
+退会完了,16,,/goodbye,アカウント,,,検討,完了メッセージ、「TOPへ戻る」ボタン,セッション破棄・Cookie削除後に表示,2026年3月11日 21:52,,ko-kikuchi,,アカウント削除完了を通知し、トップページへの遷移を案内。,page,/account/delete,/
+ワークスペース一覧,17,,/workspace,ワークスペース,,,Β版,ワークスペースカード（名前・メンバー数・最終更新日）、＋新規作成ボタン,チーム切替画面。ヘッダーからも到達可能。,2026年3月16日 2:06,,ko-kikuchi,,所属するすべてのワークスペースを一覧表示。クリックで対象ワークスペースに遷移。,page,ログイン後リダイレクト or /account,/workspace/[wsId]
+ワークスペース削除,18,,—（/workspace 内）,ワークスペース,,,検討,警告メッセージ、削除ボタン、戻るリンク,Ownerのみ操作可能。削除条件: プロジェクトが空であること。,2026年3月14日 15:12,,ko-kikuchi,,ワークスペース削除確認画面。削除確定後、一覧へ戻る。=アカウント削除な気がするので検討,modal,/workspace/[wsId]/setting,/workspace
+ワークスペース新規作成,19,,/workspace/new,ワークスペース,,,フェーズ１,ワークスペース名入力欄、Slack連携チェックボックス、作成ボタン,Slack連携は任意。プラン課金との統合も可能。,2026年3月14日 15:03,,ko-kikuchi,,新しいワークスペースを作成する。初期名・Slack連携設定を登録。,page,/workspace,/workspace/[wsId]
+ワークスペースダッシュボード,20,,/workspace/[wsId],ワークスペース,"バックレビュー完了, 記載完了",,フェーズ１,プロジェクトリスト、環境ツリー、構築ボタン、リンク,Stranahの中核UI。Terraform構成を可視化。,2026年3月11日 21:51,,ko-kikuchi,,プロジェクトと環境のツリーを一覧表示し、構成図・環境詳細へ遷移。,page,/workspace,/project/[pjId] or /env/[envId]
+ワークスペース設定,21,,/workspace/[wsId]/settings,ワークスペース,,,フェーズ１,ワークスペース名入力欄、Slack連携ボタン、保存ボタン、削除リンク,Ownerのみ編集可。削除リンクは下部に配置。,2026年3月16日 2:47,,ko-kikuchi,,ワークスペース名やSlack通知設定を編集。削除リンクを含む。,page,/workspace/[wsId],/workspace/[wsId]/member
+メンバー管理,22,,/workspace/[wsId]/member,ワークスペース,,,Β版,メンバー一覧テーブル、＋招待ボタン、権限ドロップダウン、削除ボタン,招待・権限・削除はすべて同一画面内で完結。,2026年3月16日 2:07,,ko-kikuchi,,ワークスペースに所属するメンバー一覧を表示。招待・権限変更・削除を行う。,page,/workspace/[wsId]/setting,/workspace/[wsId]/member
+メンバー招待（モーダル）,23,,—（/workspace/[wsId]/member 内）,ワークスペース,,,Β版,メール入力欄、送信ボタン、成功メッセージ,API: POST /api/workspace/[wsId]/member/invite,2026年3月16日 2:07,,ko-kikuchi,,メール入力で新規メンバーを招待する。API呼び出しで完結。,modal,/workspace/[wsId]/member,/workspace/[wsId]/member
+権限変更（インライン操作）,24,,—（/workspace/[wsId]/member 内）,ワークスペース,,,Β版,権限ドロップダウン、トースト通知,API: PATCH /api/workspace/[wsId]/member/[userId]/role,2026年3月16日 2:07,,ko-kikuchi,,メンバー権限をドロップダウンで変更。即時API反映。,modal,/workspace/[wsId]/member,/workspace/[wsId]/member
+招待状態確認（拡張）,25,,—（/workspace/[wsId]/member 内）,ワークスペース,,,Β版,招待メール、ステータス、再送ボタン,Seed期では非表示。将来的に拡張予定。,2026年3月16日 2:07,,ko-kikuchi,,招待中のメンバー一覧を確認し、再送・キャンセルを行う。,modal,/workspace/[wsId]/member,/workspace/[wsId]/member
+プロジェクト設定,26,,/project/[pjId]/settings,プロジェクト,"バックレビュー完了, 記載完了",,Β版,プロジェクト名、リポジトリURL、ブランチ選択、保存ボタン,環境構築は /env/[envId] で行う。設定のみ。,2026年3月16日 2:47,,ko-kikuchi,,プロジェクトの基本情報（名前・説明）や GitHub リポジトリ連携、構成テンプレート定義を管理。,page,/workspace/[wsId],/workspace/[wsId]
+プロジェクトメンバー管理,27,,/project/[pjId]/member,プロジェクト,,,Β版,メンバー一覧、権限ドロップダウン、＋メンバー招待ボタン、再招待ボタン,Workspace配下だが独立管理。外部開発者招待を想定。,2026年3月16日 2:07,,ko-kikuchi,,プロジェクト単位でのメンバー招待・ロール設定を行う。,page,/project/[pjId]/setting,/project/[pjId]/member
+プロジェクト削除（モーダル）,28,,—（/project/[pjId]/settings 内）,プロジェクト,"バックレビュー完了, 記載完了",,Β版,削除ボタン、確認モーダル、警告メッセージ,専用ページ不要。モーダル操作で完結。,2026年3月16日 2:47,,ko-kikuchi,,プロジェクト削除を実施。配下環境も一括削除。,modal,/project/[pjId]/setting,/workspace/[wsId]
+監視設定（拡張）,29,,/project/[pjId]/monitor,プロジェクト,,,フェーズ１,監視ルール一覧、通知先設定、保存ボタン,正式版で導入予定。,2026年3月11日 21:51,,ko-kikuchi,,プロジェクト全体（複数環境）を横断した監視・通知設定を管理。,page,/project/[pjId]/setting,/project/[pjId]/monitor
+APIトークン管理（拡張）,30,,/project/[pjId]/api,プロジェクト,,,フェーズ１,トークン一覧、生成ボタン、削除ボタン,管理者専用機能。Enterpriseで拡張。,2026年3月11日 21:51,,ko-kikuchi,,Terraform連携やWebhook通知に使うプロジェクト専用APIキーを発行・管理。,page,/project/[pjId]/setting,/project/[pjId]/api
+アーキテクチャ（環境詳細画面）,31,,/env/[envId],環境,記載完了,,Β版,構成図ビュー、テンプレートカード、構築ボタン、進捗インジケータ,Stranahの中核画面。環境の“見える化”を担う。,2026年3月16日 2:08,,ko-kikuchi,,環境の構成を可視化し、テンプレート選択・構築開始を行う。構築済みの場合はリソース構成を表示。,page,/workspace/[wsId],/env/[envId]/logs
+デプロイ履歴/構築進捗,32,,/env/[envId]/deploy,環境,記載完了,,Β版,進捗バー、ログストリーム、キャンセルボタン,構築完了後は構成図へ戻る。Webhook連携予定。,2026年3月16日 2:18,,ko-kikuchi,,構築中のログ・ステータスをリアルタイムで表示。,page,/env/[envId],/env/[envId]/logs
+デプロイ詳細,33,,deploy/[infraDeployId],環境,記載完了,,Β版,ログテーブル、フィルタ、詳細モーダル,環境単位で保持。プロジェクト単位ではない。,2026年3月16日 2:39,,ko-kikuchi,,環境ごとの構築履歴・エラーを確認。,page,/env/[envId],/env/[envId]/logs
+監視設定,34,,/env/[envId]/monitor,環境,,,フェーズ１,監視ルール一覧、閾値入力、保存ボタン,CloudWatch互換APIを利用予定。,2026年3月14日 15:53,,ko-kikuchi,,環境の稼働状態・メトリクス監視設定を表示。,page,/env/[envId],/env/[envId]/monitor
+通知履歴,35,,/env/[envId]/notification,環境,,,フェーズ１,通知履歴リスト、設定フォーム,/account/notification と連携。Slack連携も同一Webhook利用。,2026年3月11日 21:51,,ko-kikuchi,,メールやSlack通知の履歴・設定を管理。,page,/env/[envId],/env/[envId]/notification
+コスト分析,36,,/env/[envId]/cost,環境,記載完了,,フェーズ１,コストグラフ、期間選択、詳細表,監視データと同一データソースを利用。,2026年3月14日 15:49,,ko-kikuchi,,環境ごとのコスト状況を可視化。,page,/env/[envId],/env/[envId]/cost
+環境設定,37,,/env/[envId]/settings,環境,,,Β版,環境名、変数一覧、削除ボタン、確認モーダル,削除はモーダルで完結。Terraform stateクリアもここで。,2026年3月16日 2:47,,ko-kikuchi,,環境変数、構築履歴削除、環境削除などを行う。,page,/env/[envId],/workspace/[wsId]
+コンポーネント詳細（共通）,38,,—（env/[envId] 内）,環境（右ペイン）,,,Β版,β版でGCE対応、正式版で他リソース追加,,2026年3月16日 3:04,,ko-kikuchi,,"インフラ構成図上のノードをクリックした際に表示されるコンポーネント詳細。
+Environment内のコンポーネントに対する状態確認、履歴確認、ソフトウェア連携、設定変更を行う。",sideslider,,
+デプロイタブ,39,,—（env/[envId] 内）,環境（右ペイン）,,,削除予定,構築状態確認の中心,,2026年3月11日 23:56,,ko-kikuchi,,デプロイ履歴リスト、再デプロイボタン,inline,,
+設定タブ,40,,—（env/[envId] 内）,環境（右ペイン）,,,Β版,入力フォーム（動的項目）、保存・キャンセル,,2026年3月16日 2:53,,ko-kikuchi,,コンポーネント固有の設定を編集。,sideslider,,
+404,41,,/404,エラー,,,Β版,,,2026年3月16日 2:09,,ko-kikuchi,,,page,,
+500,42,,/500,エラー,,,Β版,,,2026年3月16日 2:09,,ko-kikuchi,,,page,,
+利用規約,43,,/legal/terms,利用規約など,,,フェーズ１,,,2026年3月11日 21:51,,ko-kikuchi,,,page,,
+プライバシーポリシー,44,,/legal/privacy,利用規約など,,,フェーズ１,,,2026年3月11日 21:51,,ko-kikuchi,,,page,,
+Top Page,45,,/,LP,,,フェーズ１,,,2026年3月11日 21:51,,ko-kikuchi,,,page,,
+waiting list regist,47,,/waitlist/register,LP,,,検討,,,2026年3月16日 2:10,,ko-kikuchi,,質問 + emailの入力,page,,
+アーキテクチャ（構成図）【新規作成】,48,,/env/[envId],環境,記載完了,,Β版,,,2026年3月16日 2:08,,ko-kikuchi,,,page,,
+ログイン後メール送信完了モーダル,51,,- /signup内,認証,"バックレビュー完了, フロントレビュー完了, 記載完了",,検討,,,2026年3月11日 21:54,,ko-kikuchi,,メール送信完了、再送ボタン配置,modal,,
+設定サイドバー,56,,,アカウント,"バックレビュー完了, フロントレビュー完了, 記載完了",,フェーズ１,,,2026年3月11日 21:51,,ko-kikuchi,,設定共通のサイドバー,sidebar,,
+組織ドリフト一覧,80,,/governance/drift,ガバナンス,未着手,,フェーズ２,,,2026年3月11日 23:40,,ko-kikuchi,,組織全体の構成逸脱を確認,page,,
+組織ガバナンスダッシュボード,107,,/governance,ガバナンス,未着手,,フェーズ２,総PJ数・稼働環境数・高リスク変更数・ドリフト件数・CIS準拠率,,2026年3月11日 23:39,,ko-kikuchi,,組織全体のPJ・環境・変更・ドリフト・リスク状況を集約表示,page,ワークスペースダッシュボード,
+組織ドリフト一覧,108,,/governance/drift,ガバナンス,未着手,,フェーズ２,ドリフト一覧・影響度・PJ名・環境名・検知日時・状態フィルタ,,2026年3月11日 23:39,,ko-kikuchi,,全PJのドリフトを横断的に一覧表示,page,ガバナンスダッシュボード,
+高リスク変更一覧,109,,/governance/risk,ガバナンス,未着手,,フェーズ２,高リスク変更一覧・変更種別・実行者・PJ名・日時,,2026年3月11日 23:39,,ko-kikuchi,,重大変更のみ抽出表示,page,ガバナンスダッシュボード,
+変更タイムライン,110,,/governance/timeline,ガバナンス,未着手,,フェーズ２,変更イベントタイムライン・検索,,2026年3月11日 23:39,,ko-kikuchi,,全PJ変更イベントを時系列表示,page,ガバナンスダッシュボード,
+組織監査レポート出力,111,,/audit/export,監査,未着手,,フェーズ２,期間指定・出力形式選択・出力ボタン,,2026年3月11日 23:39,,ko-kikuchi,,組織全体の監査レポート生成,page,ガバナンスダッシュボード,
+監査履歴,112,,/audit/history,監査,未着手,,フェーズ２,履歴一覧・出力日時・出力者,,2026年3月11日 23:39,,ko-kikuchi,,過去の監査出力履歴,page,監査レポート出力,
+保存ポリシー確認,113,,/audit/retention,監査,未着手,,フェーズ２,保存期間一覧・対象PJ,,2026年3月11日 23:39,,ko-kikuchi,,監査ログ保存期間確認,page,監査レポート出力,
+CIS準拠ダッシュボード,114,,/compliance,コンプライアンス,未着手,,フェーズ２,準拠率・重大違反件数,,2026年3月11日 23:39,,ko-kikuchi,,CISコア項目準拠率表示,page,ガバナンスダッシュボード,
+CIS違反一覧,115,,/compliance/violations,コンプライアンス,未着手,,フェーズ２,違反一覧・影響度・PJ名,,2026年3月11日 23:39,,ko-kikuchi,,CISコア違反リソース表示,page,CIS準拠ダッシュボード,
+コンプライアンス履歴,116,,/compliance/history,コンプライアンス,未着手,,フェーズ２,推移グラフ・期間選択,,2026年3月11日 23:39,,ko-kikuchi,,準拠率推移履歴,page,CIS準拠ダッシュボード,
+プロジェクトドリフト一覧,117,,/project/[pjId]/drift,プロジェクト,未着手,,フェーズ２,ドリフトテーブル・環境フィルタ・影響度表示・検索,,2026年3月11日 23:42,,ko-kikuchi,,プロジェクト配下の全環境のTerraform構成と実リソース差分を横断的に表示,page,,
+環境ドリフト一覧,118,,/env/[envId]/drift,環境,未着手,,フェーズ１,差分ビュー・before/after表示・修正ボタン,,2026年3月16日 2:08,,ko-kikuchi,,Terraform stateと実リソースを比較し、変更内容を差分表示,page,,
+ソフトウェアデプロイ一覧,119,,/env/[envId]/software,環境,未着手,beta,Β版,,,2026年3月16日 2:36,,ko-kikuchi,,GitHubリポジトリと連携しアプリケーションのビルドおよびデプロイを管理する,page,,
+SWビルド/デプロイ詳細,120,,/env/[envId]/software/[swDeployId],環境,未着手,beta,Β版,,,2026年3月16日 2:39,,ko-kikuchi,,アプリケーションビルドの履歴とログを表示する,page,,
+Variables管理,121,,/env/[envId]/settings/variables,環境,未着手,beta,Β版,,,2026年3月16日 2:47,,ko-kikuchi,,Environmentで使用する設定値（Variables）を管理する,page,,
+Secrets管理,122,,/env/[envId]/settings/secrets,環境,未着手,beta,Β版,,,2026年3月16日 2:47,,ko-kikuchi,,アプリケーションやインフラで使用する機密情報を管理する,page,,
+テンプレート一覧,123,,/architectures,アーキテクチャ,未着手,beta,Β版,,,2026年3月16日 2:04,,ko-kikuchi,,インフラ構成テンプレートを一覧表示する,page,,
+テンプレート詳細,124,,/architectures/[architectureId],アーキテクチャ,未着手,beta,Β版,,,2026年3月16日 2:04,,ko-kikuchi,,テンプレートの構成図とVariablesを表示する,page,,
+GitHubリポジトリ接続,125,,-/env/[envId]/software/connect,環境,未着手,beta,Β版,,,2026年3月16日 2:10,,ko-kikuchi,,GitHub App経由でリポジトリを接続する,modal,,
+環境ドリフトログ,126,,/env/[envId]/drift/[driftId],環境,未着手,,フェーズ１,,,2026年3月16日 2:33,,ko-kikuchi,,,page,,
+システムログ,128,,/env/[envId]/syslog,環境,,,フェーズ１,,,2026年3月16日 2:35,,ko-kikuchi,,,page,,
+画面詳細テンプレート,129,,/env/[envId]/opelog,環境,,,検討,,,2026年3月16日 2:35,,ko-kikuchi,,,page,,

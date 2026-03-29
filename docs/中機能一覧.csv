@@ -1,0 +1,59 @@
+﻿機能名,id,フェーズ,大機能名,概要
+ログイン認証,1,β,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),ユーザーがStranahにログインできる
+SSOログイン,2,Phase1,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),Google等のSSOプロバイダでログインできる
+セッション管理,3,Phase1,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),ログインセッションを管理する
+ユーザー作成,4,β,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),組織内ユーザーを追加できる
+ロール管理,5,β,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),ユーザー権限ロールを設定できる
+ユーザー招待,6,β,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),招待リンクでユーザーを追加できる
+組織作成,7,β,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),企業単位の組織を作成できる
+組織設定,8,Phase1,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),組織情報を管理できる
+プロジェクト作成,9,Phase1,組織統治 (https://www.notion.so/3248f7c6ad9e81de8fe6eafbdd91fc75?pvs=21),クラウド管理単位としてプロジェクトを作成する
+環境一覧表示,10,β,組織統治 (https://www.notion.so/3248f7c6ad9e81de8fe6eafbdd91fc75?pvs=21),プロジェクト内クラウド環境を一覧表示する
+プロジェクト設定,11,Phase1,組織統治 (https://www.notion.so/3248f7c6ad9e81de8fe6eafbdd91fc75?pvs=21),プロジェクト設定を変更できる
+構成テンプレート作成,12,β,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),クラウド構成テンプレートを作成する
+構成テンプレート編集,13,β,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),テンプレートを更新できる
+自動デプロイ,15,β,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),テンプレートから環境を自動構築する
+IaC生成,16,検討,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),テンプレートからIaCコードを生成する
+さくらクラウド連携,17,β,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),さくらクラウドAPIで環境を構築する
+構成差分検知,18,β,構成逸脱管理 (https://www.notion.so/3248f7c6ad9e81728b7cea98f96669e0?pvs=21),テンプレートと実環境の差分を検知する
+構築履歴保存,19,Phase1,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),デプロイ履歴を保存する
+自動スキャン,20,Phase1,構成逸脱管理 (https://www.notion.so/3248f7c6ad9e81728b7cea98f96669e0?pvs=21),定期的に構成差分を検知する
+差分履歴保存,21,Phase1,構成逸脱管理 (https://www.notion.so/3248f7c6ad9e81728b7cea98f96669e0?pvs=21),差分履歴を保存する
+変更履歴記録,22,Phase1,監査証明 (https://www.notion.so/3248f7c6ad9e812fbdf7dd7547da80b2?pvs=21),クラウド構成変更履歴を保存する
+通知連携,23,Phase1,構成逸脱管理 (https://www.notion.so/3248f7c6ad9e81728b7cea98f96669e0?pvs=21),差分検知時にSlack通知する
+監査レポート生成,24,Phase1,監査証明 (https://www.notion.so/3248f7c6ad9e812fbdf7dd7547da80b2?pvs=21),監査レポートを出力する
+組織横断監査,25,Phase2,監査証明 (https://www.notion.so/3248f7c6ad9e812fbdf7dd7547da80b2?pvs=21),組織単位で監査を実行する
+保存年限証明,26,Phase2,監査証明 (https://www.notion.so/3248f7c6ad9e812fbdf7dd7547da80b2?pvs=21),監査ログ保存期間を証明する
+CISコアチェック,27,Phase2,準拠状態可視化 (https://www.notion.so/3248f7c6ad9e81fcbb67faace2fa0463?pvs=21),CISベンチマークの主要項目を確認する
+IAM権限チェック,28,Phase2,準拠状態可視化 (https://www.notion.so/3248f7c6ad9e81fcbb67faace2fa0463?pvs=21),IAM権限設定の適正を確認する
+MFAチェック,29,Phase2,準拠状態可視化 (https://www.notion.so/3248f7c6ad9e81fcbb67faace2fa0463?pvs=21),MFA設定状況を確認する
+組織ダッシュボード,30,Phase1,組織統治 (https://www.notion.so/3248f7c6ad9e81de8fe6eafbdd91fc75?pvs=21),組織全体のクラウド状況を可視化する
+暗号化チェック,31,Phase2,準拠状態可視化 (https://www.notion.so/3248f7c6ad9e81fcbb67faace2fa0463?pvs=21),暗号化設定状況を確認する
+プロジェクトダッシュボード,32,Phase1,組織統治 (https://www.notion.so/3248f7c6ad9e81de8fe6eafbdd91fc75?pvs=21),プロジェクト単位の状況を可視化する
+セキュリティダッシュボード,33,Phase2,準拠状態可視化 (https://www.notion.so/3248f7c6ad9e81fcbb67faace2fa0463?pvs=21),準拠状況を表示する
+AWS統合,34,Phase3,マルチクラウド統治 (https://www.notion.so/3248f7c6ad9e81c7badde17f9882d017?pvs=21),AWS環境を管理対象として追加する
+GCP統合,35,Phase3,マルチクラウド統治 (https://www.notion.so/3248f7c6ad9e81c7badde17f9882d017?pvs=21),GCP環境を管理対象として追加する
+クラウド横断表示,36,Phase3,マルチクラウド統治 (https://www.notion.so/3248f7c6ad9e81c7badde17f9882d017?pvs=21),複数クラウド環境を統合表示する
+移行シミュレーション,37,Phase3,マルチクラウド統治 (https://www.notion.so/3248f7c6ad9e81c7badde17f9882d017?pvs=21),クラウド間移行をシミュレーションする
+環境詳細表示,38,β,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),クラウド環境の構成図、リソース一覧、状態を表示
+構成比較ビュー,39,Phase1,構成逸脱管理 (https://www.notion.so/3248f7c6ad9e81728b7cea98f96669e0?pvs=21),テンプレート構成と実環境構成を比較表示する
+構成スナップショット,40,Phase1,構成逸脱管理 (https://www.notion.so/3248f7c6ad9e81728b7cea98f96669e0?pvs=21),構成状態をスナップショットとして保存する
+差分ハイライト表示,41,Phase1,構成逸脱管理 (https://www.notion.so/3248f7c6ad9e81728b7cea98f96669e0?pvs=21),変更されたリソースをハイライト表示する
+テンプレート適用履歴,44,β,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),テンプレート適用履歴を保存する
+デプロイ状態管理,45,β,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),環境構築の成功・失敗状態を管理する
+環境状態同期,46,β,構成逸脱管理 (https://www.notion.so/3248f7c6ad9e81728b7cea98f96669e0?pvs=21),クラウド状態をStranah側に同期する
+リソース一覧取得,48,β,クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21),クラウドAPIからリソース情報を取得する
+ログ保存基盤,49,β,監査証明 (https://www.notion.so/3248f7c6ad9e812fbdf7dd7547da80b2?pvs=21),監査・変更ログを保存する基盤
+インフラ操作ログビュー,50,β,監査証明 (https://www.notion.so/3248f7c6ad9e812fbdf7dd7547da80b2?pvs=21),インフラ操作ログ、sysログ、デプロイログ、ドリフトログ
+クラウドアカウント接続,51,Phase2,"クラウド標準化 (https://www.notion.so/3248f7c6ad9e81f1a2c3dd5a0b62682a?pvs=21), マルチクラウド統治 (https://www.notion.so/3248f7c6ad9e81c7badde17f9882d017?pvs=21)","ユーザーがAWSやさくらのクラウドなどのクラウドアカウントをStranahに接続する機能。
+認証情報を登録することで、Stranahから対象クラウドへAPI操作を実行できるようになる。"
+ドリフト修復,52,Phase1,監査証明 (https://www.notion.so/3248f7c6ad9e812fbdf7dd7547da80b2?pvs=21),"ドリフト検知によって差分が確認された場合、
+StranahのIaC定義を再適用することで環境を正しい状態へ戻す。"
+環境作成,53,β,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),"テンプレートを元に新しいEnvironmentを作成し、
+クラウド環境のデプロイを開始する。"
+Variable、Secret管理,54,β,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),"デプロイ時に使用する設定値（Variables）および
+機密情報（Secrets）を登録・管理する機能。
+
+Variablesは通常の設定値、Secretsは暗号化された機密情報として保存される。"
+Github連携,55,β,SaaS基盤 (https://www.notion.so/SaaS-3248f7c6ad9e8151b66bceb0b1736936?pvs=21),"GitHubリポジトリにStranah APPを、
+コード変更をトリガーとしてアプリケーションのビルドおよびデプロイを実行する。"
