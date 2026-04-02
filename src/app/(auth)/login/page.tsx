@@ -39,9 +39,18 @@ export default function LoginPage() {
     defaultValues: { email: "", password: "" },
   });
 
-  function onSubmit(_data: LoginForm) {
-    // デモ: 常にログイン成功
-    router.push("/workspace");
+  function onSubmit(data: LoginForm) {
+    // デモ用: 固定アカウントのみ許可
+    if (
+      data.email === "hanada@stranah.com" &&
+      data.password === "Stranah@2026demo"
+    ) {
+      router.push("/workspace");
+    } else {
+      form.setError("root", {
+        message: "メールアドレスまたはパスワードが正しくありません",
+      });
+    }
   }
 
   return (
@@ -86,6 +95,11 @@ export default function LoginPage() {
                 </FormItem>
               )}
             />
+            {form.formState.errors.root && (
+              <p className="text-sm text-destructive">
+                {form.formState.errors.root.message}
+              </p>
+            )}
             <Button type="submit" className="w-full">
               ログイン
             </Button>
