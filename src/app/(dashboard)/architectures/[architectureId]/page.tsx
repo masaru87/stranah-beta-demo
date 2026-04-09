@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ChevronLeft, Layers, Server, Database, Network, Router, Cable, Pencil } from "lucide-react";
+import { ChevronLeft, Layers, Server, Database, Network, Router, Cable, Pencil, History } from "lucide-react";
 import { getTemplate } from "@/data/mock-projects";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
@@ -22,6 +22,49 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { TemplateApplication } from "@/types";
+
+const mockApplications: TemplateApplication[] = [
+  {
+    id: "app-1",
+    templateId: "tpl-1",
+    environmentId: "env-1",
+    environmentName: "開発環境",
+    projectName: "住民サービスポータル",
+    appliedAt: "2026-03-28T10:25:00Z",
+    appliedBy: { id: "user-1", name: "菊池 幸太郎", email: "kikuchi@example.com" },
+    version: "1.2.0",
+  },
+  {
+    id: "app-2",
+    templateId: "tpl-1",
+    environmentId: "env-2",
+    environmentName: "ステージング環境",
+    projectName: "住民サービスポータル",
+    appliedAt: "2026-03-25T14:00:00Z",
+    appliedBy: { id: "user-1", name: "菊池 幸太郎", email: "kikuchi@example.com" },
+    version: "1.2.0",
+  },
+  {
+    id: "app-3",
+    templateId: "tpl-1",
+    environmentId: "env-3",
+    environmentName: "本番環境",
+    projectName: "住民サービスポータル",
+    appliedAt: "2026-03-20T09:00:00Z",
+    appliedBy: { id: "user-2", name: "田中 美咲", email: "tanaka@example.com" },
+    version: "1.1.0",
+  },
+];
 
 const resourceIcons: Record<string, React.ReactNode> = {
   "サーバー": <Server className="h-4 w-4" />,
@@ -114,64 +157,119 @@ export default function ArchitectureDetailPage() {
 
       <Separator />
 
-      {/* リソース構成 */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">含まれるリソース</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {template.resourceTypes.map((rt) => (
-              <div
-                key={rt}
-                className="flex items-center gap-3 rounded-md border px-4 py-3"
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded bg-muted">
-                  {resourceIcons[rt] ?? <Server className="h-4 w-4" />}
-                </div>
-                <span className="text-sm font-medium">{rt}</span>
+      <Tabs defaultValue="detail">
+        <TabsList>
+          <TabsTrigger value="detail">
+            <Layers className="mr-1.5 h-3.5 w-3.5" />
+            詳細
+          </TabsTrigger>
+          <TabsTrigger value="history">
+            <History className="mr-1.5 h-3.5 w-3.5" />
+            適用履歴 ({mockApplications.filter(a => a.templateId === tplId).length})
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="detail" className="mt-4 space-y-6">
+          {/* リソース構成 */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">含まれるリソース</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {template.resourceTypes.map((rt) => (
+                  <div
+                    key={rt}
+                    className="flex items-center gap-3 rounded-md border px-4 py-3"
+                  >
+                    <div className="flex h-8 w-8 items-center justify-center rounded bg-muted">
+                      {resourceIcons[rt] ?? <Server className="h-4 w-4" />}
+                    </div>
+                    <span className="text-sm font-medium">{rt}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
 
-      {/* Variables定義 */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Variables（設定項目）</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2 text-sm">
-            <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
-              <code>server_core</code>
-              <span className="text-muted-foreground">サーバーコア数</span>
-            </div>
-            <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
-              <code>server_memory</code>
-              <span className="text-muted-foreground">サーバーメモリ (GB)</span>
-            </div>
-            <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
-              <code>db_engine</code>
-              <span className="text-muted-foreground">DBエンジン種別</span>
-            </div>
-            <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
-              <code>db_storage_size</code>
-              <span className="text-muted-foreground">DBストレージ容量 (GB)</span>
-            </div>
-            <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
-              <code>lb_plan</code>
-              <span className="text-muted-foreground">LBプラン</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          {/* Variables定義 */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Variables（設定項目）</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
+                  <code>server_core</code>
+                  <span className="text-muted-foreground">サーバーコア数</span>
+                </div>
+                <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
+                  <code>server_memory</code>
+                  <span className="text-muted-foreground">サーバーメモリ (GB)</span>
+                </div>
+                <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
+                  <code>db_engine</code>
+                  <span className="text-muted-foreground">DBエンジン種別</span>
+                </div>
+                <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
+                  <code>db_storage_size</code>
+                  <span className="text-muted-foreground">DBストレージ容量 (GB)</span>
+                </div>
+                <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
+                  <code>lb_plan</code>
+                  <span className="text-muted-foreground">LBプラン</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-      <div className="flex justify-end">
-        <Button onClick={() => toast.info("ワークスペースダッシュボードの「環境を追加」から作成してください")}>
-          このテンプレートで環境を作成
-        </Button>
-      </div>
+          <div className="flex justify-end">
+            <Button onClick={() => toast.info("ワークスペースダッシュボードの「環境を追加」から作成してください")}>
+              このテンプレートで環境を作成
+            </Button>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="history" className="mt-4">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>環境名</TableHead>
+                <TableHead>プロジェクト</TableHead>
+                <TableHead>バージョン</TableHead>
+                <TableHead>適用者</TableHead>
+                <TableHead>適用日時</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {mockApplications
+                .filter((a) => a.templateId === tplId)
+                .map((app) => (
+                  <TableRow key={app.id}>
+                    <TableCell>
+                      <Link
+                        href={`/env/${app.environmentId}`}
+                        className="text-sm font-medium text-primary hover:underline"
+                      >
+                        {app.environmentName}
+                      </Link>
+                    </TableCell>
+                    <TableCell className="text-sm">{app.projectName}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="text-xs">
+                        v{app.version}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-sm">{app.appliedBy.name}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {new Date(app.appliedAt).toLocaleString("ja-JP")}
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

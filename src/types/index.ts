@@ -199,3 +199,15 @@ export type InfraLayer = {
   spec: string;
   monthlyCost?: string;
 };
+
+// テンプレート適用履歴
+export type TemplateApplication = {
+  id: string;
+  templateId: string;
+  environmentId: string;
+  environmentName: string;
+  projectName: string;
+  appliedAt: string;
+  appliedBy: User;
+  version: string;
+};
