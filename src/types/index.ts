@@ -211,3 +211,17 @@ export type TemplateApplication = {
   appliedBy: User;
   version: string;
 };
+
+// デプロイキュー
+export type DeployQueueItem = {
+  id: string;
+  environmentId: string;
+  type: "infra" | "software";
+  serviceName?: string;
+  triggeredBy: User;
+  triggerSource: "manual" | "github_push" | "github_merge" | "schedule";
+  status: DeployStatus;
+  position: number;
+  createdAt: string;
+  startedAt?: string;
+};

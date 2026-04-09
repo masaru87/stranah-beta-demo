@@ -23,6 +23,7 @@ import {
   Settings,
   FolderKanban,
   History,
+  ListOrdered,
   Code,
   KeyRound,
   Variable,
@@ -193,6 +194,15 @@ export function AppSidebar() {
                   >
                     <History />
                     <span>デプロイ履歴</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/deploy-queue`}
+                    render={<Link href={`/env/${envId}/deploy-queue`} />}
+                  >
+                    <ListOrdered />
+                    <span>デプロイキュー</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
