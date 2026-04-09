@@ -41,7 +41,7 @@ import {
   Plus,
   Layers,
 } from "lucide-react";
-import { getProjectsByWorkspace, mockTemplates } from "@/data/mock-projects";
+import { getProjectsByWorkspace, getTemplate, mockTemplates } from "@/data/mock-projects";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -73,6 +73,8 @@ export default function WorkspaceDashboardPage() {
   const [createProjOpen, setCreateProjOpen] = useState(false);
   const [createEnvOpen, setCreateEnvOpen] = useState(false);
   const [createEnvProjectId, setCreateEnvProjectId] = useState<string>("");
+  const [createEnvStep, setCreateEnvStep] = useState(1);
+  const [selectedTemplateId, setSelectedTemplateId] = useState(mockTemplates[0].id);
 
   function openCreateEnv(projectId: string) {
     setCreateEnvProjectId(projectId);
@@ -223,63 +225,104 @@ export default function WorkspaceDashboardPage() {
       </Dialog>
 
       {/* 環境作成ダイアログ */}
-      <Dialog open={createEnvOpen} onOpenChange={setCreateEnvOpen}>
+      <Dialog open={createEnvOpen} onOpenChange={(open) => { setCreateEnvOpen(open); if (!open) setCreateEnvStep(1); }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>環境を作成</DialogTitle>
+            <DialogTitle>
+              {createEnvStep === 1 ? "環境を作成" : "テンプレート確認"}
+            </DialogTitle>
             <DialogDescription>
-              テンプレートを選択し、新しい環境を作成します。作成後にデプロイが開始されます。
+              {createEnvStep === 1
+                ? "テンプレートを選択し、新しい環境を作成します"
+                : "テンプレートの構成を確認してください"}
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="env-name">環境名</Label>
-              <Input id="env-name" placeholder="例: 開発環境" />
+
+          {createEnvStep === 1 ? (
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="env-name">環境名</Label>
+                <Input id="env-name" placeholder="例: 開発環境" />
+              </div>
+              <div className="space-y-2">
+                <Label>環境タイプ</Label>
+                <Select defaultValue="開発">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="開発">開発 (dev)</SelectItem>
+                    <SelectItem value="ステージング">ステージング (stg)</SelectItem>
+                    <SelectItem value="本番">本番 (prod)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>テンプレート</Label>
+                <Select value={selectedTemplateId} onValueChange={(v) => v && setSelectedTemplateId(v)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {mockTemplates.map((tpl) => (
+                      <SelectItem key={tpl.id} value={tpl.id}>
+                        <div className="flex items-center gap-2">
+                          <Layers className="h-3.5 w-3.5 text-muted-foreground" />
+                          <span>{tpl.name}</span>
+                          <span className="text-xs text-muted-foreground">v{tpl.version}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label>環境タイプ</Label>
-              <Select defaultValue="開発">
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="開発">開発 (dev)</SelectItem>
-                  <SelectItem value="ステージング">
-                    ステージング (stg)
-                  </SelectItem>
-                  <SelectItem value="本番">本番 (prod)</SelectItem>
-                </SelectContent>
-              </Select>
+          ) : (
+            <div className="space-y-3 py-4">
+              {(() => {
+                const tpl = getTemplate(selectedTemplateId);
+                if (!tpl) return null;
+                return (
+                  <>
+                    <div className="rounded-md border px-3 py-2">
+                      <p className="text-sm font-medium">{tpl.name} <span className="text-xs text-muted-foreground">v{tpl.version}</span></p>
+                      <p className="text-xs text-muted-foreground">{tpl.description}</p>
+                    </div>
+                    <div className="space-y-1.5">
+                      <p className="text-xs font-medium text-muted-foreground">含まれるリソース</p>
+                      {tpl.resourceTypes.map((rt) => (
+                        <div key={rt} className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-1.5 text-sm">
+                          <Server className="h-3.5 w-3.5 text-muted-foreground" />
+                          {rt}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                );
+              })()}
             </div>
-            <div className="space-y-2">
-              <Label>テンプレート</Label>
-              <Select defaultValue={mockTemplates[0].name}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {mockTemplates.map((tpl) => (
-                    <SelectItem key={tpl.id} value={tpl.name}>
-                      <div className="flex items-center gap-2">
-                        <Layers className="h-3.5 w-3.5 text-muted-foreground" />
-                        <span>{tpl.name}</span>
-                        <span className="text-xs text-muted-foreground">
-                          v{tpl.version}
-                        </span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+          )}
+
           <DialogFooter>
-            <DialogClose className="inline-flex items-center rounded-lg border px-3 py-1.5 text-sm hover:bg-muted">
-              キャンセル
-            </DialogClose>
-            <Button size="sm" onClick={handleCreateEnv}>
-              作成してデプロイ開始
-            </Button>
+            {createEnvStep === 1 ? (
+              <>
+                <DialogClose className="inline-flex items-center rounded-lg border px-3 py-1.5 text-sm hover:bg-muted">
+                  キャンセル
+                </DialogClose>
+                <Button size="sm" onClick={() => setCreateEnvStep(2)}>
+                  次へ
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" size="sm" onClick={() => setCreateEnvStep(1)}>
+                  戻る
+                </Button>
+                <Button size="sm" onClick={handleCreateEnv}>
+                  作成してデプロイ開始
+                </Button>
+              </>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
