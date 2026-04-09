@@ -28,6 +28,7 @@ import {
   Variable,
   ChevronLeft,
   AlertTriangle,
+  List,
 } from "lucide-react";
 
 function extractIds(pathname: string) {
@@ -164,6 +165,15 @@ export function AppSidebar() {
                   >
                     <AlertTriangle />
                     <span>ドリフト検知</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/resources`}
+                    render={<Link href={`/env/${envId}/resources`} />}
+                  >
+                    <List />
+                    <span>リソース一覧</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
