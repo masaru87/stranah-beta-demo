@@ -27,7 +27,6 @@ import {
   Code,
   KeyRound,
   Variable,
-  ChevronLeft,
   AlertTriangle,
   List,
   Boxes,
