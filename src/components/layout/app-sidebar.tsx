@@ -29,6 +29,7 @@ import {
   ChevronLeft,
   AlertTriangle,
   List,
+  Boxes,
 } from "lucide-react";
 
 function extractIds(pathname: string) {
@@ -174,6 +175,15 @@ export function AppSidebar() {
                   >
                     <List />
                     <span>リソース一覧</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/services`}
+                    render={<Link href={`/env/${envId}/services`} />}
+                  >
+                    <Boxes />
+                    <span>Service / Infra</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>

@@ -173,3 +173,29 @@ export type Notification = {
   createdAt: string;
   linkTo?: string;
 };
+
+// Serviceレイヤー
+export type Service = {
+  id: string;
+  environmentId: string;
+  name: string;
+  repositoryName: string;
+  branch: string;
+  buildCommand: string;
+  outputDir: string;
+  lastDeployedAt?: string;
+  status: DeployStatus | "idle";
+};
+
+// Infraレイヤー
+export type InfraLayer = {
+  id: string;
+  environmentId: string;
+  provider: "sakuracloud" | "aws" | "gcp";
+  resourceType: string;
+  resourceName: string;
+  status: "running" | "stopped" | "error" | "creating";
+  region: string;
+  spec: string;
+  monthlyCost?: string;
+};
