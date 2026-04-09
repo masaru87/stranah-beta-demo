@@ -32,6 +32,7 @@ import {
   List,
   Boxes,
   Webhook,
+  ScrollText,
 } from "lucide-react";
 
 function extractIds(pathname: string) {
@@ -240,6 +241,15 @@ export function AppSidebar() {
                   >
                     <KeyRound />
                     <span>Secrets</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/logs`}
+                    render={<Link href={`/env/${envId}/logs`} />}
+                  >
+                    <ScrollText />
+                    <span>ログ</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>

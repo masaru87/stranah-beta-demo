@@ -225,3 +225,16 @@ export type DeployQueueItem = {
   createdAt: string;
   startedAt?: string;
 };
+
+// 統合ログ
+export type LogCategory = "infra" | "deploy" | "system";
+
+export type LogEntry = {
+  id: string;
+  category: LogCategory;
+  timestamp: string;
+  level: "info" | "warn" | "error";
+  message: string;
+  source?: string;
+  resource?: string;
+};
