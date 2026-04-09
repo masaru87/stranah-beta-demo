@@ -125,6 +125,15 @@ export function AppSidebar() {
               <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton
+                    isActive={pathname === `/project/${pjId}`}
+                    render={<Link href={`/project/${pjId}`} />}
+                  >
+                    <FolderKanban />
+                    <span>概要</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     isActive={pathname === `/project/${pjId}/settings`}
                     render={<Link href={`/project/${pjId}/settings`} />}
                   >

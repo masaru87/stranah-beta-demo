@@ -120,7 +120,9 @@ export default function WorkspaceDashboardPage() {
                     <FolderKanban className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div>
-                    <CardTitle className="text-lg">{project.name}</CardTitle>
+                    <Link href={`/project/${project.id}`} className="hover:underline">
+                      <CardTitle className="text-lg">{project.name}</CardTitle>
+                    </Link>
                     {project.description && (
                       <CardDescription className="mt-0.5">
                         {project.description}
