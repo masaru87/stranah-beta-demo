@@ -31,6 +31,7 @@ import {
   AlertTriangle,
   List,
   Boxes,
+  Webhook,
 } from "lucide-react";
 
 function extractIds(pathname: string) {
@@ -203,6 +204,15 @@ export function AppSidebar() {
                   >
                     <ListOrdered />
                     <span>デプロイキュー</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/deploy-trigger`}
+                    render={<Link href={`/env/${envId}/deploy-trigger`} />}
+                  >
+                    <Webhook />
+                    <span>トリガー / ビルド</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
