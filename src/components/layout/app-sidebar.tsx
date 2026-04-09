@@ -27,6 +27,7 @@ import {
   KeyRound,
   Variable,
   ChevronLeft,
+  AlertTriangle,
 } from "lucide-react";
 
 function extractIds(pathname: string) {
@@ -154,6 +155,15 @@ export function AppSidebar() {
                   >
                     <Server />
                     <span>構成図</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/drift`}
+                    render={<Link href={`/env/${envId}/drift`} />}
+                  >
+                    <AlertTriangle />
+                    <span>ドリフト検知</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
