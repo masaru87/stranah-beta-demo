@@ -155,3 +155,21 @@ export type Drift = {
   status: DriftStatus;
   detectedAt: string;
 };
+
+// 通知
+export type NotificationType =
+  | "deploy_success"
+  | "deploy_failed"
+  | "drift_detected"
+  | "member_invited"
+  | "environment_created";
+
+export type Notification = {
+  id: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+  linkTo?: string;
+};
