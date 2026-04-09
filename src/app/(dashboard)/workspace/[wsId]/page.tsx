@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -69,6 +70,7 @@ export default function WorkspaceDashboardPage() {
   const router = useRouter();
   const wsId = params.wsId as string;
   const projects = getProjectsByWorkspace(wsId);
+  const [createProjOpen, setCreateProjOpen] = useState(false);
   const [createEnvOpen, setCreateEnvOpen] = useState(false);
   const [createEnvProjectId, setCreateEnvProjectId] = useState<string>("");
 
@@ -94,6 +96,10 @@ export default function WorkspaceDashboardPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
+          <Button size="sm" onClick={() => setCreateProjOpen(true)}>
+            <Plus className="mr-1.5 h-3.5 w-3.5" />
+            プロジェクト作成
+          </Button>
           <Link href={`/workspace/${wsId}/member`}>
             <Button variant="outline" size="sm">
               <Users className="mr-1.5 h-3.5 w-3.5" />
@@ -183,6 +189,36 @@ export default function WorkspaceDashboardPage() {
           </Card>
         ))}
       </div>
+
+      {/* プロジェクト作成ダイアログ */}
+      <Dialog open={createProjOpen} onOpenChange={setCreateProjOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>プロジェクトを作成</DialogTitle>
+            <DialogDescription>
+              クラウド管理単位としてプロジェクトを作成します
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="proj-name">プロジェクト名</Label>
+              <Input id="proj-name" placeholder="例: 住民サービスポータル" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="proj-desc">説明</Label>
+              <Textarea id="proj-desc" placeholder="プロジェクトの概要" rows={2} />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose className="inline-flex items-center rounded-lg border px-3 py-1.5 text-sm hover:bg-muted">
+              キャンセル
+            </DialogClose>
+            <Button size="sm" onClick={() => { setCreateProjOpen(false); toast.success("プロジェクトを作成しました"); }}>
+              作成
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* 環境作成ダイアログ */}
       <Dialog open={createEnvOpen} onOpenChange={setCreateEnvOpen}>
