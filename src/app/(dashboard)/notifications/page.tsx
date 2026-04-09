@@ -56,18 +56,13 @@ export default function NotificationsPage() {
 
       <div className="rounded-lg border">
         {notifications.map((notif, i) => {
-          const Wrapper = notif.linkTo ? Link : "div";
-          const wrapperProps = notif.linkTo ? { href: notif.linkTo } : {};
-          return (
-            <Wrapper
-              key={notif.id}
-              {...(wrapperProps as Record<string, string>)}
-              className={cn(
-                "flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-muted/50",
-                !notif.read && "bg-primary/5",
-                i > 0 && "border-t"
-              )}
-            >
+          const rowClass = cn(
+            "flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-muted/50",
+            !notif.read && "bg-primary/5",
+            i > 0 && "border-t"
+          );
+          const content = (
+            <>
               <div className="shrink-0">{typeIcons[notif.type]}</div>
               {!notif.read && (
                 <div className="h-2 w-2 shrink-0 rounded-full bg-primary" />
@@ -84,7 +79,16 @@ export default function NotificationsPage() {
                   day: "numeric",
                 })}
               </span>
-            </Wrapper>
+            </>
+          );
+          return notif.linkTo ? (
+            <Link key={notif.id} href={notif.linkTo} className={rowClass}>
+              {content}
+            </Link>
+          ) : (
+            <div key={notif.id} className={rowClass}>
+              {content}
+            </div>
           );
         })}
       </div>
