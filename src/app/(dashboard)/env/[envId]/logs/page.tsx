@@ -82,13 +82,13 @@ export default function LogsPage() {
               </span>
               <Badge
                 variant="secondary"
-                className={cn("shrink-0 text-[10px]", categoryColors[log.category])}
+                className={cn("w-20 shrink-0 justify-center text-[10px]", categoryColors[log.category])}
               >
                 {categoryLabels[log.category]}
               </Badge>
               <span
                 className={cn(
-                  "shrink-0 text-xs font-medium uppercase",
+                  "w-12 shrink-0 text-xs font-medium uppercase",
                   levelColors[log.level]
                 )}
               >
