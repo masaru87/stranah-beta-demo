@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Bell } from "lucide-react";
+import { LogOut, Bell, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getUnreadCount } from "@/data/mock-notifications";
 
@@ -40,6 +40,10 @@ export function AppHeader() {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-48">
+          <DropdownMenuItem onClick={() => router.push("/profile")}>
+            <User className="mr-2 h-4 w-4" />
+            プロファイル
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push("/login")}>
             <LogOut className="mr-2 h-4 w-4" />
             ログアウト
