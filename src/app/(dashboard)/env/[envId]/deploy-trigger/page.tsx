@@ -59,47 +59,43 @@ export default function DeployTriggerPage() {
         </TabsList>
 
         <TabsContent value="trigger" className="mt-4 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <GitBranch className="h-4 w-4" />
-                GitHub Webhook
-              </CardTitle>
-              <CardDescription>
-                Stranah AppをインストールしたGitHubリポジトリからのイベントを検知
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                <Label>有効なイベント</Label>
+          {services.map((svc) => (
+            <Card key={svc.id}>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <GitBranch className="h-4 w-4" />
+                  {svc.repositoryName}
+                </CardTitle>
+                <CardDescription>
+                  サービス: {svc.name} / ブランチ: {svc.branch}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-sm">
-                    <input type="checkbox" defaultChecked className="rounded" />
-                    <span>push — 対象ブランチへのpush時にデプロイ開始</span>
-                  </label>
-                  <label className="flex items-center gap-2 text-sm">
-                    <input type="checkbox" defaultChecked className="rounded" />
-                    <span>pull_request (merged) — PRマージ時にデプロイ開始</span>
-                  </label>
-                  <label className="flex items-center gap-2 text-sm">
-                    <input type="checkbox" className="rounded" />
-                    <span>release — リリース公開時にデプロイ開始</span>
-                  </label>
+                  <Label>有効なイベント</Label>
+                  <div className="space-y-1.5">
+                    <label className="flex items-center gap-2 text-sm">
+                      <input type="checkbox" defaultChecked className="rounded" />
+                      <span>push — 対象ブランチへのpush時にデプロイ</span>
+                    </label>
+                    <label className="flex items-center gap-2 text-sm">
+                      <input type="checkbox" defaultChecked className="rounded" />
+                      <span>pull_request (merged) — PRマージ時にデプロイ</span>
+                    </label>
+                    <label className="flex items-center gap-2 text-sm">
+                      <input type="checkbox" className="rounded" />
+                      <span>release — リリース公開時にデプロイ</span>
+                    </label>
+                  </div>
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="trigger-branch">対象ブランチ (正規表現)</Label>
-                <Input
-                  id="trigger-branch"
-                  defaultValue="^(main|release/.*)$"
-                  placeholder="例: ^main$"
-                />
-              </div>
-
-              <Button size="sm" onClick={handleSaveTrigger}>保存</Button>
-            </CardContent>
-          </Card>
+                <div className="space-y-2">
+                  <Label>対象ブランチ (正規表現)</Label>
+                  <Input defaultValue={`^${svc.branch}$`} placeholder="例: ^main$" />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          <Button size="sm" onClick={handleSaveTrigger}>保存</Button>
         </TabsContent>
 
         <TabsContent value="build" className="mt-4 space-y-4">
