@@ -1,13 +1,33 @@
 "use client";
 
+import { useState } from "react";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ChevronLeft, Layers, Server, Database, Network, Router, Cable, Coins } from "lucide-react";
-import { getTemplate } from "@/data/mock-projects";
+import { getTemplate, mockProjects } from "@/data/mock-projects";
 import { toast } from "sonner";
 
 const resourceIcons: Record<string, React.ReactNode> = {
@@ -20,8 +40,21 @@ const resourceIcons: Record<string, React.ReactNode> = {
 
 export default function ArchitectureDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const tplId = params.architectureId as string;
   const template = getTemplate(tplId);
+
+  const [createOpen, setCreateOpen] = useState(false);
+  const [selectedWsId, setSelectedWsId] = useState("ws-1");
+  const [selectedPjId, setSelectedPjId] = useState("");
+
+  const availableProjects = mockProjects.filter((p) => p.workspaceId === selectedWsId);
+
+  function handleCreate() {
+    setCreateOpen(false);
+    toast.success("環境を作成しました");
+    router.push("/env/env-1");
+  }
 
   if (!template) {
     return (
@@ -152,11 +185,84 @@ export default function ArchitectureDetailPage() {
         </Card>
 
         <div className="flex justify-end">
-          <Button onClick={() => toast.info("ワークスペースダッシュボードの「環境を追加」から作成してください")}>
+          <Button onClick={() => setCreateOpen(true)}>
             このテンプレートで環境を作成
           </Button>
         </div>
       </div>
+
+      {/* 環境作成モーダル */}
+      <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>環境を作成</DialogTitle>
+            <DialogDescription>
+              「{template.name}」を使用して環境を作成します
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>ワークスペース</Label>
+              <Select value={selectedWsId} onValueChange={(v) => { if (v) { setSelectedWsId(v); setSelectedPjId(""); } }}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ws-1">東京都 情報システム部</SelectItem>
+                  <SelectItem value="ws-2">大阪府 デジタル推進課</SelectItem>
+                  <SelectItem value="ws-3">開発チーム</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>プロジェクト</Label>
+              <Select value={selectedPjId} onValueChange={(v) => v && setSelectedPjId(v)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="プロジェクトを選択" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableProjects.length === 0 ? (
+                    <SelectItem value="__none__" disabled>
+                      プロジェクトがありません
+                    </SelectItem>
+                  ) : (
+                    availableProjects.map((pj) => (
+                      <SelectItem key={pj.id} value={pj.id}>
+                        {pj.name}
+                      </SelectItem>
+                    ))
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="tpl-env-name">環境名</Label>
+              <Input id="tpl-env-name" placeholder="例: 開発環境" />
+            </div>
+            <div className="space-y-2">
+              <Label>環境タイプ</Label>
+              <Select defaultValue="dev">
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="dev">開発 (dev)</SelectItem>
+                  <SelectItem value="stg">ステージング (stg)</SelectItem>
+                  <SelectItem value="prod">本番 (prod)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose className="inline-flex items-center rounded-lg border px-3 py-1.5 text-sm hover:bg-muted">
+              キャンセル
+            </DialogClose>
+            <Button size="sm" onClick={handleCreate} disabled={!selectedPjId}>
+              作成
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
