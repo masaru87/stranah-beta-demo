@@ -2,9 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Card, CardContent, CardDescription, CardHeader, CardTitle,
-} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +10,8 @@ import {
   Dialog, DialogTrigger, DialogContent, DialogHeader,
   DialogTitle, DialogDescription, DialogFooter, DialogClose,
 } from "@/components/ui/dialog";
-import { Users, FolderKanban, Plus } from "lucide-react";
+import { Users, FolderKanban, Plus, ChevronDown, ChevronRight } from "lucide-react";
+import { getProjectsByWorkspace } from "@/data/mock-projects";
 import { toast } from "sonner";
 import type { Workspace } from "@/types";
 
@@ -45,6 +43,11 @@ export default function WorkspacePage() {
   const [workspaces, setWorkspaces] = useState<Workspace[]>(initialWorkspaces);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  function toggleExpand(wsId: string) {
+    setExpanded((prev) => ({ ...prev, [wsId]: !prev[wsId] }));
+  }
 
   function handleCreate() {
     if (!name.trim()) return;
@@ -104,31 +107,59 @@ export default function WorkspacePage() {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {workspaces.map((ws) => (
-          <Link key={ws.id} href={`/workspace/${ws.id}`}>
-            <Card className="transition-colors hover:bg-muted/50">
-              <CardHeader>
-                <CardTitle>{ws.name}</CardTitle>
-                <CardDescription>
-                  最終更新: {new Date(ws.updatedAt).toLocaleDateString("ja-JP")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex gap-4">
-                  <Badge variant="secondary" className="gap-1">
+      <div className="space-y-1">
+        {workspaces.map((ws) => {
+          const isOpen = expanded[ws.id] ?? false;
+          const projects = getProjectsByWorkspace(ws.id);
+          return (
+            <div key={ws.id} className="rounded-lg border">
+              <button
+                onClick={() => toggleExpand(ws.id)}
+                className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/50"
+              >
+                {isOpen ? (
+                  <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                )}
+                <span className="flex-1 text-sm font-medium">{ws.name}</span>
+                <div className="flex items-center gap-3">
+                  <Badge variant="secondary" className="gap-1 text-xs">
                     <Users className="h-3 w-3" />
-                    {ws.memberCount} メンバー
+                    {ws.memberCount}
                   </Badge>
-                  <Badge variant="secondary" className="gap-1">
+                  <Badge variant="secondary" className="gap-1 text-xs">
                     <FolderKanban className="h-3 w-3" />
-                    {ws.projectCount} プロジェクト
+                    {projects.length}
                   </Badge>
                 </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
+              </button>
+              {isOpen && (
+                <div className="border-t px-4 py-2 space-y-1">
+                  {projects.length === 0 ? (
+                    <p className="py-2 text-sm text-muted-foreground">プロジェクトがありません</p>
+                  ) : (
+                    projects.map((pj) => (
+                      <Link
+                        key={pj.id}
+                        href={`/project/${pj.id}`}
+                        className="flex items-center justify-between rounded-md px-3 py-2 transition-colors hover:bg-muted/50"
+                      >
+                        <div className="flex items-center gap-2">
+                          <FolderKanban className="h-3.5 w-3.5 text-muted-foreground" />
+                          <span className="text-sm">{pj.name}</span>
+                        </div>
+                        <Badge variant="outline" className="text-xs">
+                          {pj.environments.length} 環境
+                        </Badge>
+                      </Link>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
