@@ -40,6 +40,7 @@ import {
   Settings,
   Plus,
   Layers,
+  Coins,
 } from "lucide-react";
 import { getProjectsByWorkspace, getTemplate, mockTemplates } from "@/data/mock-projects";
 import { cn } from "@/lib/utils";
@@ -111,6 +112,41 @@ export default function WorkspaceDashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* コストサマリ */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Coins className="h-4 w-4" />
+            コストサマリ（ワークスペース全体）
+          </CardTitle>
+          <CardDescription>全プロジェクト・全環境の月額コスト</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+            <div>
+              <p className="text-xs text-muted-foreground">今月のここまで</p>
+              <p className="mt-1 text-2xl font-bold">¥29,680</p>
+              <p className="text-xs text-muted-foreground">10日経過</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">月末予想</p>
+              <p className="mt-1 text-2xl font-bold">¥96,450</p>
+              <p className="text-xs text-emerald-600 dark:text-emerald-400">前月比 -3.2%</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">前月実績</p>
+              <p className="mt-1 text-2xl font-bold text-muted-foreground">¥99,640</p>
+              <p className="text-xs text-muted-foreground">2026年3月</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">環境数</p>
+              <p className="mt-1 text-2xl font-bold">{projects.reduce((sum, p) => sum + p.environments.length, 0)}</p>
+              <p className="text-xs text-muted-foreground">{projects.length} プロジェクト</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* プロジェクト一覧 */}
       <div className="space-y-4">
