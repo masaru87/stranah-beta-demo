@@ -23,10 +23,16 @@ import {
   Settings,
   FolderKanban,
   History,
+  ListOrdered,
   Code,
   KeyRound,
   Variable,
-  ChevronLeft,
+  AlertTriangle,
+  List,
+  Boxes,
+  Webhook,
+  ScrollText,
+  Shield,
 } from "lucide-react";
 
 function extractIds(pathname: string) {
@@ -107,6 +113,15 @@ export function AppSidebar() {
                     <span>メンバー管理</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/workspace/${wsId}/groups`}
+                    render={<Link href={`/workspace/${wsId}/groups`} />}
+                  >
+                    <Shield />
+                    <span>グループ権限</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -118,6 +133,15 @@ export function AppSidebar() {
             <SidebarGroupLabel>プロジェクト</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/project/${pjId}`}
+                    render={<Link href={`/project/${pjId}`} />}
+                  >
+                    <FolderKanban />
+                    <span>概要</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     isActive={pathname === `/project/${pjId}/settings`}
@@ -158,11 +182,56 @@ export function AppSidebar() {
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/drift`}
+                    render={<Link href={`/env/${envId}/drift`} />}
+                  >
+                    <AlertTriangle />
+                    <span>ドリフト検知</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/resources`}
+                    render={<Link href={`/env/${envId}/resources`} />}
+                  >
+                    <List />
+                    <span>リソース一覧</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/services`}
+                    render={<Link href={`/env/${envId}/services`} />}
+                  >
+                    <Boxes />
+                    <span>Service / Infra</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
                     isActive={pathname.startsWith(`/env/${envId}/deploy`)}
                     render={<Link href={`/env/${envId}/deploy`} />}
                   >
                     <History />
                     <span>デプロイ履歴</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/deploy-queue`}
+                    render={<Link href={`/env/${envId}/deploy-queue`} />}
+                  >
+                    <ListOrdered />
+                    <span>デプロイキュー</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/deploy-trigger`}
+                    render={<Link href={`/env/${envId}/deploy-trigger`} />}
+                  >
+                    <Webhook />
+                    <span>トリガー / ビルド</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
@@ -190,6 +259,15 @@ export function AppSidebar() {
                   >
                     <KeyRound />
                     <span>Secrets</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/env/${envId}/logs`}
+                    render={<Link href={`/env/${envId}/logs`} />}
+                  >
+                    <ScrollText />
+                    <span>ログ</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>

@@ -155,3 +155,87 @@ export type Drift = {
   status: DriftStatus;
   detectedAt: string;
 };
+
+// 通知
+export type NotificationType =
+  | "deploy_success"
+  | "deploy_failed"
+  | "drift_detected"
+  | "member_invited"
+  | "environment_created";
+
+export type Notification = {
+  id: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+  linkTo?: string;
+};
+
+// Serviceレイヤー
+export type Service = {
+  id: string;
+  environmentId: string;
+  name: string;
+  repositoryName: string;
+  branch: string;
+  buildCommand: string;
+  outputDir: string;
+  lastDeployedAt?: string;
+  status: DeployStatus | "idle";
+};
+
+// Infraレイヤー
+export type InfraLayer = {
+  id: string;
+  environmentId: string;
+  provider: "sakuracloud" | "aws" | "gcp";
+  resourceType: string;
+  resourceName: string;
+  status: "running" | "stopped" | "error" | "creating";
+  region: string;
+  spec: string;
+  monthlyCost?: string;
+};
+
+// テンプレート適用履歴
+export type TemplateApplication = {
+  id: string;
+  templateId: string;
+  environmentId: string;
+  environmentName: string;
+  projectName: string;
+  appliedAt: string;
+  appliedBy: User;
+  version: string;
+};
+
+// デプロイキュー
+export type DeployQueueItem = {
+  id: string;
+  environmentId: string;
+  type: "infra" | "software";
+  serviceName?: string;
+  triggeredBy: User;
+  triggerSource: "manual" | "github_push" | "github_merge" | "schedule";
+  status: DeployStatus;
+  position: number;
+  createdAt: string;
+  startedAt?: string;
+};
+
+// 統合ログ
+export type LogCategory = "infra" | "deploy" | "system";
+
+export type LogEntry = {
+  id: string;
+  category: LogCategory;
+  timestamp: string;
+  level: "info" | "warn" | "error";
+  message: string;
+  source?: string;
+  resource?: string;
+  details?: Record<string, unknown>;
+};

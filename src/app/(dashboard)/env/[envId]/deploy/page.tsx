@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronRight, ChevronLeft, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Deploy } from "@/types";
 import { mockUser } from "@/data/mock-environments";
@@ -33,7 +33,9 @@ const statusColors: Record<string, string> = {
   cancelled: "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
 };
 
-const mockDeployList: Deploy[] = [
+type DeployWithCommit = Deploy & { commitHash?: string; repositoryUrl?: string };
+
+const mockDeployList: DeployWithCommit[] = [
   {
     id: "deploy-1",
     environmentId: "env-1",
@@ -42,6 +44,8 @@ const mockDeployList: Deploy[] = [
     startedAt: "2026-03-28T10:25:00Z",
     finishedAt: "2026-03-28T10:30:00Z",
     logs: [],
+    commitHash: "f3e1538",
+    repositoryUrl: "https://github.com/tokyo-gov/resident-portal",
   },
   {
     id: "deploy-2",
@@ -51,6 +55,8 @@ const mockDeployList: Deploy[] = [
     startedAt: "2026-03-25T14:00:00Z",
     finishedAt: "2026-03-25T14:08:00Z",
     logs: [],
+    commitHash: "d86cfd6",
+    repositoryUrl: "https://github.com/tokyo-gov/resident-portal",
   },
   {
     id: "deploy-3",
@@ -60,6 +66,8 @@ const mockDeployList: Deploy[] = [
     startedAt: "2026-03-24T11:00:00Z",
     finishedAt: "2026-03-24T11:03:00Z",
     logs: [],
+    commitHash: "b834de7",
+    repositoryUrl: "https://github.com/tokyo-gov/resident-portal",
   },
   {
     id: "deploy-4",
@@ -69,6 +77,8 @@ const mockDeployList: Deploy[] = [
     startedAt: "2026-03-20T09:00:00Z",
     finishedAt: "2026-03-20T09:12:00Z",
     logs: [],
+    commitHash: "a1c2b3d",
+    repositoryUrl: "https://github.com/tokyo-gov/resident-portal",
   },
 ];
 
@@ -109,6 +119,7 @@ export default function DeployHistoryPage() {
         <TableHeader>
           <TableRow>
             <TableHead>ステータス</TableHead>
+            <TableHead>コミット</TableHead>
             <TableHead>実行者</TableHead>
             <TableHead>開始日時</TableHead>
             <TableHead>所要時間</TableHead>
@@ -125,6 +136,21 @@ export default function DeployHistoryPage() {
                 >
                   {statusLabels[deploy.status]}
                 </Badge>
+              </TableCell>
+              <TableCell>
+                {deploy.commitHash ? (
+                  <a
+                    href={`${deploy.repositoryUrl}/commit/${deploy.commitHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 font-mono text-xs text-primary hover:underline"
+                  >
+                    {deploy.commitHash}
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                ) : (
+                  <span className="text-xs text-muted-foreground">—</span>
+                )}
               </TableCell>
               <TableCell className="text-sm">
                 {deploy.triggeredBy.name}

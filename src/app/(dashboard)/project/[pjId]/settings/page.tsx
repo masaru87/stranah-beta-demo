@@ -103,18 +103,46 @@ export default function ProjectSettingsPage() {
             GitHub連携
           </CardTitle>
           <CardDescription>
-            リポジトリと連携してソフトウェアデプロイを自動化
+            Stranah Appをリポジトリにインストールし、コード変更でビルド・デプロイを自動実行
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="repo">リポジトリURL</Label>
-            <Input id="repo" defaultValue={repoUrl} placeholder="https://github.com/org/repo" />
+        <CardContent className="space-y-6">
+          {/* 接続状態 */}
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-emerald-500" />
+            <span className="text-sm font-medium">接続済み</span>
+            <span className="text-xs text-muted-foreground">
+              Stranah App がインストールされています
+            </span>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="branch">デフォルトブランチ</Label>
-            <Input id="branch" defaultValue={branch} />
+
+          {/* リポジトリ設定 */}
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="repo">リポジトリURL</Label>
+              <Input id="repo" defaultValue={repoUrl} placeholder="https://github.com/org/repo" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="branch">デフォルトブランチ</Label>
+              <Input id="branch" defaultValue={branch} />
+            </div>
           </div>
+
+          {/* トリガー設定 */}
+          <div className="space-y-3">
+            <Label>デプロイトリガー</Label>
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" defaultChecked className="rounded" />
+                <span>mainブランチへのpush時に自動デプロイ</span>
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" defaultChecked className="rounded" />
+                <span>プルリクエストのmerge時に自動デプロイ</span>
+              </label>
+            </div>
+          </div>
+
           <Button size="sm" onClick={handleSaveGitHub}>保存</Button>
         </CardContent>
       </Card>
