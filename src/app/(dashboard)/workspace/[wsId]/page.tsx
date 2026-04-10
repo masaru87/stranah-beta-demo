@@ -74,6 +74,7 @@ export default function WorkspaceDashboardPage() {
   const [createEnvOpen, setCreateEnvOpen] = useState(false);
   const [createEnvProjectId, setCreateEnvProjectId] = useState<string>("");
   const [createEnvStep, setCreateEnvStep] = useState(1);
+  const [createMode, setCreateMode] = useState<"template" | "empty">("template");
   const [selectedTemplateId, setSelectedTemplateId] = useState(mockTemplates[0].id);
 
   function openCreateEnv(projectId: string) {
@@ -225,7 +226,7 @@ export default function WorkspaceDashboardPage() {
       </Dialog>
 
       {/* 環境作成ダイアログ */}
-      <Dialog open={createEnvOpen} onOpenChange={(open) => { setCreateEnvOpen(open); if (!open) setCreateEnvStep(1); }}>
+      <Dialog open={createEnvOpen} onOpenChange={(open) => { setCreateEnvOpen(open); if (!open) { setCreateEnvStep(1); setCreateMode("template"); } }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>
@@ -240,6 +241,35 @@ export default function WorkspaceDashboardPage() {
 
           {createEnvStep === 1 ? (
             <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>作成方法</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setCreateMode("template")}
+                    className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
+                      createMode === "template"
+                        ? "border-primary bg-primary/5"
+                        : "hover:bg-muted/50"
+                    }`}
+                  >
+                    <div className="font-medium">テンプレートから</div>
+                    <div className="text-xs text-muted-foreground">既存構成を使用</div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCreateMode("empty")}
+                    className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
+                      createMode === "empty"
+                        ? "border-primary bg-primary/5"
+                        : "hover:bg-muted/50"
+                    }`}
+                  >
+                    <div className="font-medium">空から作成</div>
+                    <div className="text-xs text-muted-foreground">リソースを後から追加</div>
+                  </button>
+                </div>
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="env-name">環境名</Label>
                 <Input id="env-name" placeholder="例: 開発環境" />
@@ -257,25 +287,27 @@ export default function WorkspaceDashboardPage() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label>テンプレート</Label>
-                <Select value={selectedTemplateId} onValueChange={(v) => v && setSelectedTemplateId(v)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {mockTemplates.map((tpl) => (
-                      <SelectItem key={tpl.id} value={tpl.id}>
-                        <div className="flex items-center gap-2">
-                          <Layers className="h-3.5 w-3.5 text-muted-foreground" />
-                          <span>{tpl.name}</span>
-                          <span className="text-xs text-muted-foreground">v{tpl.version}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              {createMode === "template" && (
+                <div className="space-y-2">
+                  <Label>テンプレート</Label>
+                  <Select value={selectedTemplateId} onValueChange={(v) => v && setSelectedTemplateId(v)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {mockTemplates.map((tpl) => (
+                        <SelectItem key={tpl.id} value={tpl.id}>
+                          <div className="flex items-center gap-2">
+                            <Layers className="h-3.5 w-3.5 text-muted-foreground" />
+                            <span>{tpl.name}</span>
+                            <span className="text-xs text-muted-foreground">v{tpl.version}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-3 py-4">
@@ -309,9 +341,15 @@ export default function WorkspaceDashboardPage() {
                 <DialogClose className="inline-flex items-center rounded-lg border px-3 py-1.5 text-sm hover:bg-muted">
                   キャンセル
                 </DialogClose>
-                <Button size="sm" onClick={() => setCreateEnvStep(2)}>
-                  次へ
-                </Button>
+                {createMode === "template" ? (
+                  <Button size="sm" onClick={() => setCreateEnvStep(2)}>
+                    次へ
+                  </Button>
+                ) : (
+                  <Button size="sm" onClick={handleCreateEnv}>
+                    空の環境を作成
+                  </Button>
+                )}
               </>
             ) : (
               <>
