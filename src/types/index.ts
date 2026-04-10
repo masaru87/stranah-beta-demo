@@ -237,4 +237,5 @@ export type LogEntry = {
   message: string;
   source?: string;
   resource?: string;
+  details?: Record<string, unknown>;
 };

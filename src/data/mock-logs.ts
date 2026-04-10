@@ -9,6 +9,13 @@ export const mockLogs: LogEntry[] = [
     message: "sakuracloud_server.web-1 のスケールアップを実行 (2core → 4core)",
     source: "さくらクラウド API",
     resource: "web-1",
+    details: {
+      action: "scale_up",
+      resource_id: "srv-12345",
+      before: { core: 2, memory: "4GB" },
+      after: { core: 4, memory: "4GB" },
+      executed_by: "kikuchi@example.com",
+    },
   },
   {
     id: "log-i2",
@@ -51,6 +58,14 @@ export const mockLogs: LogEntry[] = [
     level: "error",
     message: "resident-portal-web のビルドが失敗: npm run build exit code 1",
     source: "Deploy Pipeline",
+    details: {
+      exit_code: 1,
+      command: "npm run build",
+      stderr: "Error: Cannot find module '@/components/missing'\n  at Module._resolveFilename (node:internal/modules/cjs/loader:1075:15)",
+      duration_ms: 12340,
+      repository: "tokyo-gov/resident-portal",
+      commit: "e5f6g7h",
+    },
   },
   {
     id: "log-s1",
@@ -83,6 +98,13 @@ export const mockLogs: LogEntry[] = [
     level: "error",
     message: "Webhook署名検証に失敗しました (IP: 203.0.113.50)",
     source: "Webhook Handler",
+    details: {
+      ip_address: "203.0.113.50",
+      expected_signature: "sha256=abc...",
+      received_signature: "sha256=xyz...",
+      user_agent: "GitHub-Hookshot/abc123",
+      event_type: "push",
+    },
   },
 ];
 
