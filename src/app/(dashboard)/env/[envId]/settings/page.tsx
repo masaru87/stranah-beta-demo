@@ -17,7 +17,15 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { ChevronLeft, Trash2, Variable, KeyRound } from "lucide-react";
+import { ChevronLeft, Trash2, Variable, KeyRound, Shield } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { getEnvironment } from "@/data/mock-environments";
 import { toast } from "sonner";
 
@@ -91,6 +99,60 @@ export default function EnvSettingsPage() {
           </Card>
         </Link>
       </div>
+
+      {/* 権限設定 */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Shield className="h-4 w-4" />
+            権限設定
+          </CardTitle>
+          <CardDescription>
+            この環境へのアクセス権限をグループごとに設定
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>グループ</TableHead>
+                <TableHead className="text-center">閲覧</TableHead>
+                <TableHead className="text-center">デプロイ</TableHead>
+                <TableHead className="text-center">設定変更</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="font-medium text-sm">管理者</TableCell>
+                <TableCell className="text-center"><input type="checkbox" defaultChecked disabled className="rounded" /></TableCell>
+                <TableCell className="text-center"><input type="checkbox" defaultChecked disabled className="rounded" /></TableCell>
+                <TableCell className="text-center"><input type="checkbox" defaultChecked disabled className="rounded" /></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium text-sm">メンバー</TableCell>
+                <TableCell className="text-center"><input type="checkbox" defaultChecked className="rounded" /></TableCell>
+                <TableCell className="text-center"><input type="checkbox" defaultChecked className="rounded" /></TableCell>
+                <TableCell className="text-center"><input type="checkbox" className="rounded" /></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium text-sm">閲覧のみ</TableCell>
+                <TableCell className="text-center"><input type="checkbox" defaultChecked className="rounded" /></TableCell>
+                <TableCell className="text-center"><input type="checkbox" className="rounded" /></TableCell>
+                <TableCell className="text-center"><input type="checkbox" className="rounded" /></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium text-sm">請求情報閲覧</TableCell>
+                <TableCell className="text-center"><input type="checkbox" className="rounded" /></TableCell>
+                <TableCell className="text-center"><input type="checkbox" className="rounded" /></TableCell>
+                <TableCell className="text-center"><input type="checkbox" className="rounded" /></TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+          <div className="mt-4">
+            <Button size="sm" onClick={() => toast.success("権限設定を保存しました")}>保存</Button>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="border-destructive/50">
         <CardHeader>
