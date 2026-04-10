@@ -32,6 +32,7 @@ import {
   Boxes,
   Webhook,
   ScrollText,
+  Shield,
 } from "lucide-react";
 
 function extractIds(pathname: string) {
@@ -110,6 +111,15 @@ export function AppSidebar() {
                   >
                     <Users />
                     <span>メンバー管理</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    isActive={pathname === `/workspace/${wsId}/groups`}
+                    render={<Link href={`/workspace/${wsId}/groups`} />}
+                  >
+                    <Shield />
+                    <span>グループ権限</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>
