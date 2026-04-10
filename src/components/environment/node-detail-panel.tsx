@@ -17,7 +17,10 @@ import {
   Cable,
   HardDrive,
   Globe,
+  GitBranch,
 } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 const iconMap = {
@@ -164,6 +167,60 @@ export function NodeDetailPanel({ node, onClose }: NodeDetailPanelProps) {
                     defaultValue={data.metadata["ディスク"] || ""}
                     readOnly
                   />
+                </div>
+              </>
+            )}
+
+            {data.resourceType === "server" && (
+              <>
+                <Separator />
+                <div>
+                  <h4 className="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                    <GitBranch className="h-3.5 w-3.5" />
+                    GitHub連携
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="space-y-2">
+                      <Label>リポジトリ</Label>
+                      <Select defaultValue="tokyo-gov/resident-portal">
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="tokyo-gov/resident-portal">
+                            tokyo-gov/resident-portal
+                          </SelectItem>
+                          <SelectItem value="tokyo-gov/resident-portal-api">
+                            tokyo-gov/resident-portal-api
+                          </SelectItem>
+                          <SelectItem value="tokyo-gov/notification-service">
+                            tokyo-gov/notification-service
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>ブランチ</Label>
+                      <Select defaultValue="main">
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="main">main</SelectItem>
+                          <SelectItem value="develop">develop</SelectItem>
+                          <SelectItem value="staging">staging</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                      onClick={() => toast.success("GitHub連携設定を保存しました")}
+                    >
+                      連携設定を保存
+                    </Button>
+                  </div>
                 </div>
               </>
             )}
