@@ -144,10 +144,19 @@ export default function ServicesPage() {
                 <Cloud className="h-4 w-4" />
                 さくらクラウド
               </CardTitle>
-              <CardDescription>
-                月額推定コスト: ¥{totalMonthlyCost.toLocaleString()}
-              </CardDescription>
             </CardHeader>
+            <CardContent>
+              <div className="flex gap-8">
+                <div>
+                  <p className="text-xs text-muted-foreground">今月のここまで</p>
+                  <p className="text-xl font-bold">¥{Math.round(totalMonthlyCost * 0.3).toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">月末予想</p>
+                  <p className="text-xl font-bold">¥{totalMonthlyCost.toLocaleString()}</p>
+                </div>
+              </div>
+            </CardContent>
           </Card>
 
           <Table>
