@@ -209,7 +209,10 @@ export function AppSidebar() {
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
-                    isActive={pathname.startsWith(`/env/${envId}/deploy`)}
+                    isActive={
+                      pathname === `/env/${envId}/deploy` ||
+                      pathname.startsWith(`/env/${envId}/deploy/`)
+                    }
                     render={<Link href={`/env/${envId}/deploy`} />}
                   >
                     <History />

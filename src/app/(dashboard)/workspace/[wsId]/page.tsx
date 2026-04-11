@@ -328,7 +328,18 @@ export default function WorkspaceDashboardPage() {
                   <Label>テンプレート</Label>
                   <Select value={selectedTemplateId} onValueChange={(v) => v && setSelectedTemplateId(v)}>
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue>
+                        {(() => {
+                          const tpl = getTemplate(selectedTemplateId);
+                          return tpl ? (
+                            <div className="flex items-center gap-2">
+                              <Layers className="h-3.5 w-3.5 text-muted-foreground" />
+                              <span>{tpl.name}</span>
+                              <span className="text-xs text-muted-foreground">v{tpl.version}</span>
+                            </div>
+                          ) : null;
+                        })()}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {mockTemplates.map((tpl) => (
